@@ -10,18 +10,20 @@ import { currency } from "lib";
 const SellBookRow = ({ order }) => {
   const getColor = (status) => {
     switch (status) {
-      case "등록중":
-        return "secondary";
-
-      case "판매중":
-        return "secondary";
+      case "등록대기":
+        return "info";
 
       case "판매완료":
+        return "dark";
+
+      case "판매중":
         return "success";
+
+      case "예약중":
+        return "warning";
 
       case "취소":
         return "error";
-
       default:
         return "";
     }
@@ -80,6 +82,9 @@ const SellBookRow = ({ order }) => {
               },
             }}
           >
+
+
+
             <IconButton>
               <East
                 fontSize="small"
@@ -91,7 +96,7 @@ const SellBookRow = ({ order }) => {
               />
             </IconButton>
           </Typography>
-        </TableRow>
+        </TableRow >
       </a>
     </Link>
   );

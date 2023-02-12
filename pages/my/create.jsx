@@ -13,18 +13,20 @@ import CustomerDashboardLayout from "components/layouts/customer-dashboard";
 import CustomerDashboardNavigation from "components/layouts/customer-dashboard/Navigations";
 import DropZone from "components/DropZone";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 
 // ===========================================================
 const ProfileEditor = ({ newbook }) => {
+  const router = useRouter()
   const INITIAL_VALUES = {
-    title: '제목' || "",
+    title: "",
     sell_price: 0 || "",
-    description: "",
+    trade_description: "",
   };
   const checkoutSchema = yup.object().shape({
-    title: yup.string().required("required"),
-    sell_price: yup.string().required("required"),
+    title: yup.string().required("책 제목을 입력하세요."),
+    sell_price: yup.string().required("가격을 입력하세요."),
   });
 
   const handleFormSubmit = async (values) => {
@@ -53,7 +55,10 @@ const ProfileEditor = ({ newbook }) => {
         }
       )
       .then((response) => {
-        console.log(response);
+        if(response.status === 200){
+          alert('정상 등록되었습니다.')
+          router.push("/my");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -147,13 +152,13 @@ const ProfileEditor = ({ newbook }) => {
                       helperText={touched.trade_description && errors.trade_description}
                     />
                   </Grid>
-                  <Grid item md={12} xs={12}>
+                  {/* <Grid item md={12} xs={12}>
                     <DropZone
                       onChange={(files) => console.log(files)}
                       title="상품 이미지를 등록하세요"
                     // imageSize="We had to limit height to maintian consistancy. Some device both side of the banner might cropped for height limitation."
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Stack>
 

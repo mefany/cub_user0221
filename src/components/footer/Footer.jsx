@@ -32,66 +32,9 @@ const Footer = () => {
             color: "white",
           }}
         >
-          <Box py={10} overflow="hidden">
-            <Grid container spacing={3}>
-              <Grid item lg={4} md={6} sm={6} xs={12}>
-                <Link href="/">
-                  <a>
-                    <Image mb={2.5} src="/assets/images/logo.svg" alt="logo" />
-                  </a>
-                </Link>
 
-                <Paragraph mb={2.5} color="grey.500">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Auctor libero id et, in gravida. Sit diam duis mauris nulla
-                  cursus. Erat et lectus vel ut sollicitudin elit at amet.
-                </Paragraph>
-
-                <AppStore />
-              </Grid>
-
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Box
-                  fontSize="18px"
-                  fontWeight="600"
-                  mb={1.5}
-                  lineHeight="1"
-                  color="white"
-                >
-                  About Us
-                </Box>
-
-                <div>
-                  {aboutLinks.map((item, ind) => (
-                    <Link href="/" key={ind} passHref>
-                      <StyledLink>{item}</StyledLink>
-                    </Link>
-                  ))}
-                </div>
-              </Grid>
-
-              <Grid item lg={3} md={6} sm={6} xs={12}>
-                <Box
-                  fontSize="18px"
-                  fontWeight="600"
-                  mb={1.5}
-                  lineHeight="1"
-                  color="white"
-                >
-                  Customer Care
-                </Box>
-
-                <div>
-                  {customerCareLinks.map((item, ind) => (
-                    <Link href="/" key={ind} passHref>
-                      <StyledLink>{item}</StyledLink>
-                    </Link>
-                  ))}
-                </div>
-              </Grid>
-
-              <Grid item lg={3} md={6} sm={6} xs={12}>
-                <Box
+<Grid item lg={12} md={12} sm={12} xs={12} textAlign="center">
+                {/* <Box
                   fontSize="18px"
                   fontWeight="600"
                   mb={1.5}
@@ -99,18 +42,18 @@ const Footer = () => {
                   color="white"
                 >
                   Contact Us
+                </Box> */}
+                <Box py={0.6} color="grey.500">
+                  서울시 강동구 풍성로 1234 컵컵 오피스 
                 </Box>
                 <Box py={0.6} color="grey.500">
-                  70 Washington Square South, New York, NY 10012, United States
-                </Box>
-                <Box py={0.6} color="grey.500">
-                  Email: uilib.help@gmail.com
+                  Email: uilib.help@gmail.com | 010-0000-0000
                 </Box>
                 <Box py={0.6} mb={2} color="grey.500">
-                  Phone: +1 1123 456 780
+                  사업자 등록번호: 1234-1234-1234
                 </Box>
 
-                <FlexBox className="flex" mx={-0.625}>
+                {/* <FlexBox className="flex" mx={-0.625}>
                   {iconList.map((item, ind) => (
                     <a
                       href={item.url}
@@ -130,10 +73,10 @@ const Footer = () => {
                       </IconButton>
                     </a>
                   ))}
-                </FlexBox>
+                </FlexBox> */}
               </Grid>
-            </Grid>
-          </Box>
+
+      
         </Container>
       </Box>
     </footer>

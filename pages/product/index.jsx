@@ -1,23 +1,53 @@
-import { Container, Grid, Pagination, Box, Card, MenuItem, TextField, } from "@mui/material";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Card,
+  Container,
+  Grid,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import { FlexBox } from "components/flex-box";
-import { H2, Paragraph } from "components/Typography";
-import ShopCard1 from "components/shop/ShopCard1";
-import { FlexBetween } from "components/flex-box";
+import { H5, Paragraph } from "components/Typography";
 import ShopLayout1 from "components/layouts/ShopLayout1";
-import api from "utils/__api__/shop";
+import { useRouter } from "next/router";
 import axios from "axios";
+import BookCard from "components/product-cards/BookCard";
 
-// =============================================
-const ShopList = ({ shops }) => {
+const ProductSearchResult = () => {
+  const router = useRouter();
+  const [resultList, setResultList] = useState([]);
+  const title = router.query.title
+  const [query, setQuery] = useState(router.query.title)
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    // codes using router.query
+    getSearchBooks(query)
+  }, [router.isReady]);
+
+  const getSearchBooks = async (query) => {
+    const res = await axios.get(
+      `https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/trade?title=${query}`
+    );
+    const books = await res.data;
+    if (!books.length) {
+      setResultList([])
+    } else {
+      setResultList(books)
+    }
+  };
 
   const handleOnChange = (e) => {
     if (e.target.value !== 'latest') {
-      // setQuery(title + '&price_order=' + e.target.value)
+      setQuery(title + '&price_order=' + e.target.value)
     } else {
-      // setQuery(title + '&date_order=asc')
+      setQuery(title + '&date_order=asc')
     }
-    // getSearchBooks(query)
+    getSearchBooks(query)
   }
+
   return (
     <ShopLayout1>
       <Container
@@ -26,7 +56,7 @@ const ShopList = ({ shops }) => {
           mb: 6,
         }}
       >
-
+        {/* TOP BAR AREA */}
         <Card
           elevation={1}
           sx={{
@@ -42,7 +72,10 @@ const ShopList = ({ shops }) => {
             },
           }}
         >
-          <H2>전체 매장</H2>
+          <Box>
+            <H5>검색어 “{title}”(으)로 찾은 결과입니다.</H5>
+            <Paragraph color="grey.600">총 {resultList.length}개의 검색 결과</Paragraph>
+          </Box>
 
           <FlexBox
             alignItems="center"
@@ -78,70 +111,41 @@ const ShopList = ({ shops }) => {
           </FlexBox>
         </Card>
 
-        {/* ALL SHOP LIST AREA */}
+        {/* PRODUCT VIEW AREA */}
         <Grid container spacing={3}>
-          {shops.map((item) => (
-            <Grid item lg={4} sm={6} xs={12} key={item.shop_uid}>
-              <ShopCard1
-                name={item.name}
-                // slug={item.slug}
-                phone={'010-1111-1111'}
-                address={'강동구 방이동'}
-                // rating={item.rating || 5}
-                coverPicture={item.shop_photo}
-                profilePicture={item.shop_photo}
+          {resultList ? resultList.map((item, ind) => (
+            <Grid item lg={3} md={3} sm={6} xs={6} key={ind}>
+              <BookCard
+                hoverEffect
+                shop_name={item.shop_name}
+                trade_uid={item.trade_uid}
+                title={item.title}
+                price={item.sell_price}
+                sell_price={item.sell_price}
+                imgUrl={item.image}
+                discount={item.discount}
+
               />
             </Grid>
-          ))}
+          )) : <H2>Loading...</H2>}
         </Grid>
-
-        {/* PAGINTAION AREA */}
-        {/* <FlexBetween flexWrap="wrap" mt={4}>
-          <Span color="grey.600">Showing 1-9 of 300 Shops</Span>
-          <Pagination
-            count={shops.length}
-            variant="outlined"
-            color="primary"
-          />
-        </FlexBetween> */}
       </Container>
     </ShopLayout1>
   );
 };
 
-export const getStaticProps = async () => {
-  const res2 = await axios.get(
-    "https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/shop"
-  );
-  const shops = await res2.data;
-
-  return {
-    props: {
-      shops,
-    },
-  };
-};
-
 const sortOptions = [
   {
-    label: "전체",
+    label: "낮은가격순",
     value: "asc",
   },
   {
-    label: "서울시",
-    value: "asc2",
-  },
-  {
-    label: "경기도",
+    label: "높은가격순",
     value: "desc",
   },
   {
-    label: "강원도",
-    value: "latest",
-  },
-  {
-    label: "충청도",
+    label: "최신순",
     value: "latest",
   },
 ];
-export default ShopList;
+export default ProductSearchResult;

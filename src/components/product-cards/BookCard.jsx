@@ -118,14 +118,14 @@ const BookCard = ({
         </HoverIconWrapper>
 
         <Link href={`/book/${trade_uid}`}>
-          <a>
+          <a>            
             <LazyImage
               src={imgUrl}
               width={0}
               height={0}
               layout="responsive"
               alt={title}
-            />
+            />  
           </a>
         </Link>
       </ImageWrapper>

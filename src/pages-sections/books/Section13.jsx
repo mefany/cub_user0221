@@ -11,6 +11,7 @@ import GiftBox from "components/icons/GiftBox";
 import useWindowSize from "hooks/useWindowSize";
 import Carousel from "components/carousel/Carousel";
 import CategorySectionCreator from "components/CategorySectionCreator";
+
 import { calculateDiscount, currency } from "lib"; // ========================================================
 
 // ========================================================
@@ -28,7 +29,7 @@ const Section13 = ({ shops }) => {
     <CategorySectionCreator
       // icon={<GiftBox />}
       title="근처매장"
-      seeMoreLink="#"
+      seeMoreLink="/shops"
     >
       <Box my="-0.25rem">
         <Carousel totalSlides={shops.length} visibleSlides={visibleSlides}>

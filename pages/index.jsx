@@ -47,7 +47,7 @@ const MarketShop = (props) => {
 
 export const getStaticProps = async () => {
   const res = await axios.get(
-    "https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/trade"
+    "https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/trade?date_order=asc"
   );
   const books = await res.data;
 

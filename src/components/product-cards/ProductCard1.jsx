@@ -69,7 +69,7 @@ const ContentWrapper = styled(Box)(() => ({
 
 // ========================================================
 const ProductCard1 = ({
-  trade_id,
+  trade_uid,
   title,
   sell_price,
   imgUrl,
@@ -109,7 +109,7 @@ const ProductCard1 = ({
           </IconButton>
         </HoverIconWrapper>
 
-        <Link href={`/book/${trade_id}`}>
+        <Link href={`/book/${trade_uid}`}>
           <a>
             {imgUrl && <LazyImage
               src={imgUrl}
@@ -128,7 +128,7 @@ const ProductCard1 = ({
         product={{
           title,
           sell_price,
-          trade_id,
+          trade_uid,
           imgGroup: [imgUrl, imgUrl],
         }}
       />
@@ -136,7 +136,7 @@ const ProductCard1 = ({
       <ContentWrapper>
         <FlexBox>
           <Box flex="1 1 0" minWidth="0px" mr={1}>
-            <Link href={`/book/${trade_id}`}>
+            <Link href={`/book/${trade_uid}`}>
               <a>
                 <H3
                   mb={1}

@@ -9,6 +9,9 @@ import BazaarTextField from "components/BazaarTextField";
 import SocialButtons from "./SocialButtons";
 import EyeToggleButton from "./EyeToggleButton";
 import { FlexBox, FlexRowCenter } from "components/flex-box";
+import { useRouter } from "next/router";
+import axios from "axios";
+
 const fbStyle = {
   background: "#3B5998",
   color: "white",
@@ -43,6 +46,7 @@ export const Wrapper = styled(({ children, passwordVisibility, ...rest }) => (
 }));
 
 const Login = () => {
+  const router = useRouter()
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const togglePasswordVisibility = useCallback(() => {
     setPasswordVisibility((visible) => !visible);
@@ -50,6 +54,37 @@ const Login = () => {
 
   const handleFormSubmit = async (values) => {
     console.log(values);
+    sendForm(values);
+  };
+
+  const sendForm = async (values) => {
+    await axios
+      .post(
+        `https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/login/`,
+        {
+          user_id: values.email,
+          password: values.password,
+          logout:false
+        }
+      )
+      .then((response) => {
+        console.log(response)
+        const { data } = response
+        if(response.status === 200){
+          document.cookie =`token=${data[0].token}`
+          document.cookie =`user_uid=${data[0].user_uid}`
+          // sessionStorage.setItem("token",  );
+          // sessionStorage.setItem("user_uid", data[0].user_uid);
+          router.push("/");
+        }
+        
+      })
+      .catch((error) => {
+        console.log(error);
+        if(error.response.status === 401){
+          alert('이메일 주소 또는 비밀번호를 확인해주세요.')
+        }
+      });
   };
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -61,16 +96,17 @@ const Login = () => {
   return (
     <Wrapper elevation={3} passwordVisibility={passwordVisibility}>
       <form onSubmit={handleSubmit}>
-        <BazaarImage
+        {/* <BazaarImage
           src="/assets/images/bazaar-black-sm.svg"
           sx={{
             m: "auto",
           }}
-        />
+        /> */}
 
         <H1 textAlign="center" mt={1} mb={4} fontSize={16}>
-          Welcome To Bazaar
+          로그인 후 컵컵의 서비스를 만나보세요.
         </H1>
+
 
         <BazaarTextField
           mb={1.5}
@@ -82,7 +118,7 @@ const Login = () => {
           onBlur={handleBlur}
           value={values.email}
           onChange={handleChange}
-          label="Email or Phone Number"
+          label="이메일"
           placeholder="exmple@mail.com"
           error={!!touched.email && !!errors.email}
           helperText={touched.email && errors.email}
@@ -93,7 +129,7 @@ const Login = () => {
           fullWidth
           size="small"
           name="password"
-          label="Password"
+          label="비밀번호"
           autoComplete="on"
           variant="outlined"
           onBlur={handleBlur}
@@ -122,18 +158,18 @@ const Login = () => {
             height: 44,
           }}
         >
-          Login
+          로그인
         </Button>
       </form>
 
-      <SocialButtons />
+      {/* <SocialButtons /> */}
 
       <FlexRowCenter mt="1.25rem">
-        <Box>Don&apos;t have account?</Box>
+        <Box>아직 회원이 아니신가요?</Box>
         <Link href="/signup" passHref legacyBehavior>
           <a>
             <H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-              Sign Up
+              회원 가입
             </H6>
           </a>
         </Link>
@@ -146,11 +182,11 @@ const Login = () => {
         py={2.5}
         mt="1.25rem"
       >
-        Forgot your password?
+        비밀번호를 잊으셨나요?
         <Link href="/reset-password" passHref legacyBehavior>
           <a>
             <H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-              Reset It
+              비밀번호 찾기
             </H6>
           </a>
         </Link>
@@ -164,7 +200,7 @@ const initialValues = {
   password: "",
 };
 const formSchema = yup.object().shape({
-  password: yup.string().required("Password is required"),
-  email: yup.string().email("invalid email").required("Email is required"),
+  password: yup.string().required("패스워드를 입력하세요."),
+  email: yup.string().email("이메일 주소 형식이 맞지 않습니다.").required("이메일 주소를 입력하세요."),
 });
 export default Login;

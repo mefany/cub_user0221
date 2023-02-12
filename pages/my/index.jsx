@@ -108,7 +108,8 @@ const Orders = () => {
 
       {data ?
         data.map((order) => (
-          <SellBookRow order={order} key={order.trade_uid} />)) : <H5>Loading...</H5>}
+          <SellBookRow order={order} key={order.trade_uid} />)
+        ) : <H5>Loading...</H5>}
 
 
       <FlexBox justifyContent="center" mt={5}>

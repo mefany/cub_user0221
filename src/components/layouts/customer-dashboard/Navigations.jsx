@@ -72,8 +72,31 @@ const Navigations = () => {
 };
 
 const linkList = [
+  // {
+  //   title: "책정보",
+  //   list: [
+  //     {
+  //       href: "/my",
+  //       title: "내책판매",
+  //       icon: ShoppingBagOutlined,
+  //       count: 5,
+  //     },
+  //     {
+  //       href: "/wish-list",
+  //       title: "찜한상품",
+  //       icon: FavoriteBorder,
+  //       count: 19,
+  //     },
+  //     // {
+  //     //   href: "/support-tickets",
+  //     //   title: "Support Tickets",
+  //     //   icon: CustomerService,
+  //     //   count: 1,
+  //     // },
+  //   ],
+  // },
   {
-    title: "책정보",
+    title: "내정보",
     list: [
       {
         href: "/my",
@@ -81,23 +104,6 @@ const linkList = [
         icon: ShoppingBagOutlined,
         count: 5,
       },
-      {
-        href: "/wish-list",
-        title: "찜한상품",
-        icon: FavoriteBorder,
-        count: 19,
-      },
-      // {
-      //   href: "/support-tickets",
-      //   title: "Support Tickets",
-      //   icon: CustomerService,
-      //   count: 1,
-      // },
-    ],
-  },
-  {
-    title: "내정보",
-    list: [
       {
         href: "/profile",
         title: "계정정보",

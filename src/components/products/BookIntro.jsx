@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { useState } from "react";
 import { Add, Remove } from "@mui/icons-material";
-import { Avatar, Box, Button, Grid } from "@mui/material";
+import { Avatar, Box, Button, Grid, MenuItem, TextField } from "@mui/material";
 import LazyImage from "components/LazyImage";
 import BazaarRating from "components/BazaarRating";
 import { H1, H2, H3, H6 } from "components/Typography";
@@ -13,7 +13,7 @@ import { FlexBox, FlexRowCenter } from "../flex-box";
 
 // ================================================================
 const BookIntro = ({ data }) => {
-  const { trade_uid, sell_price, title, sell_state, image, shop_name, user_uid } = data;
+  const { trade_uid, sell_price, title, sell_state, image, shop_name, user_uid, nickname } = data;
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0); // CHECK PRODUCT EXIST OR NOT IN THE CART
 
@@ -33,6 +33,10 @@ const BookIntro = ({ data }) => {
       },
     });
   };
+
+  const handleOnChange = (e) => {
+    console.log(e.target.value)
+  }
 
   return (
     <Box width="100%">
@@ -114,16 +118,39 @@ const BookIntro = ({ data }) => {
             <Box color="inherit">{sell_state}</Box>
           </Box>
 
+          <Grid container>
+            <Grid item>
+              <TextField
+                select
+                // fullWidth
+                size="small"
+                variant="outlined"
+                placeholder="Short by"
+                defaultValue={sortOptions[0].value}
+                onChange={handleOnChange}
+
+              >
+                {sortOptions.map((item) => (
+                  <MenuItem value={item.value} key={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid item alignItems="stretch" style={{ display: "flex" }}>
+              <Button color="primary" variant="contained">
+                예약확정
+              </Button>
+            </Grid>
+          </Grid>
+
+
           {!cartItem?.qty ? (
             <Button
               color="primary"
               variant="contained"
               onClick={handleCartAmountChange(1)}
-              sx={{
-                mb: 4.5,
-                px: "1.75rem",
-                height: 40,
-              }}
             >
               구매예약
             </Button>
@@ -163,7 +190,7 @@ const BookIntro = ({ data }) => {
             <Box>판매자:</Box>
             <Link href="/shops/fdfdsa">
               <a>
-                <H6 ml={1}>{user_uid}</H6>
+                <H6 ml={1}>{nickname}</H6>
               </a>
             </Link>
           </FlexBox>
@@ -172,5 +199,20 @@ const BookIntro = ({ data }) => {
     </Box>
   );
 };
+
+const sortOptions = [
+  {
+    label: "낮은가격순",
+    value: "asc",
+  },
+  {
+    label: "높은가격순",
+    value: "desc",
+  },
+  {
+    label: "최신순",
+    value: "latest",
+  },
+];
 
 export default BookIntro;

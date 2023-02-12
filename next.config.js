@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["image.yes24.com", "wimg.mk.co.kr"],
+    domains: ["image.yes24.com", "wimg.mk.co.kr", 'shopping-phinf.pstatic.net'],
   },
   devIndicators: {},
   publicRuntimeConfig: {

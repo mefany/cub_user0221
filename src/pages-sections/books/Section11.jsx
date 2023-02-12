@@ -10,7 +10,7 @@ const Section11 = ({ moreItems }) => {
         mb: "70px",
       }}
     >
-      <CategorySectionHeader title="신규도서" seeMoreLink="#" />
+      <CategorySectionHeader title="신규도서" />
 
       <Grid container spacing={3}>
         {moreItems.map((item) => (
@@ -24,7 +24,7 @@ const Section11 = ({ moreItems }) => {
               sell_price={item.sell_price}
               imgUrl={item.image}
               description={item.description}
-              // description={item.description}
+            // description={item.description}
             />
           </Grid>
         ))}

@@ -18,7 +18,7 @@ const ResetPassword = () => {
         }}
       >
         <H1 fontSize={20} fontWeight={700} mb={4} textAlign="center">
-          Reset your password
+          비밀번호 초기화
         </H1>
 
         <FlexBox justifyContent="space-between" flexWrap="wrap" my={2}>
@@ -31,11 +31,11 @@ const ResetPassword = () => {
               fullWidth
               name="email"
               type="email"
-              label="Email" //   onBlur={handleBlur}
-              //   value={values.email}
-              //   onChange={handleChange}
-              //   error={Boolean(touched.email && errors.email)}
-              //   helperText={touched.email && errors.email}
+              label="이메일" //   onBlur={handleBlur}
+            //   value={values.email}
+            //   onChange={handleChange}
+            //   error={Boolean(touched.email && errors.email)}
+            //   helperText={touched.email && errors.email}
             />
 
             <Box
@@ -49,17 +49,17 @@ const ResetPassword = () => {
                 color="primary"
                 variant="contained"
               >
-                Reset
+                비밀번호 초기화
               </Button>
             </Box>
           </form>
 
           <FlexRowCenter mt="1.25rem" justifyContent="center" width="100%">
-            <Box>Don&apos;t have account?</Box>
-            <Link href="/signup" passHref legacyBehavior>
+            <Box>이미 회원이신가요?</Box>
+            <Link href="/login" passHref legacyBehavior>
               <a>
                 <H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-                  Sign Up
+                  로그인
                 </H6>
               </a>
             </Link>

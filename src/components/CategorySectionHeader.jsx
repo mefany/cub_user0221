@@ -21,7 +21,7 @@ const CategorySectionHeader = (props) => {
         <Link href={seeMoreLink}>
           <a>
             <FlexBox alignItems="center" color="grey.600">
-              View all
+              더보기
               {settings.direction === "ltr" ? (
                 <ArrowRight fontSize="small" color="inherit" />
               ) : (

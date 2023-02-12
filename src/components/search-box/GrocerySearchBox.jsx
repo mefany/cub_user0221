@@ -1,27 +1,40 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { Box, Button, MenuItem, TextField } from "@mui/material";
-import { SearchOutlinedIcon, SearchResultCard } from "./styled";
+import { Box, Button, TextField } from "@mui/material";
+import { SearchOutlinedIcon } from "./styled";
+import { useRouter } from "next/router";
+
 
 const GrocerySearchBox = () => {
+  const router = useRouter();
   const parentRef = useRef();
   const [_, startTransition] = useTransition();
   const [resultList, setResultList] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const handleSearch = (e) => {
     startTransition(() => {
       const value = e.target?.value;
-      if (!value) setResultList([]);
-      else setResultList(dummySearchResult);
+      if (!value) setSearchText('');
+      else setSearchText(e.target.value)
     });
   };
 
-  const handleDocumentClick = () => setResultList([]);
+  const handleDocumentClick = () => {
+    const title = searchText
+    if (searchText !== '') {
+      router.push({
+        pathname: "/product/search",
+        query: {
+          title: title,
+        }
+      })
+    } else {
+      alert('검색어를 입력하세요')
+    }
 
-  useEffect(() => {
-    window.addEventListener("click", handleDocumentClick);
-    return () => window.removeEventListener("click", null);
-  }, []);
+  }
+
   return (
     <Box
       position="relative"
@@ -35,7 +48,7 @@ const GrocerySearchBox = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="찾고 싶은 도서를 검색해보세요"
+        placeholder="도서를 검색해보세요"
         onChange={handleSearch}
         InputProps={{
           sx: {
@@ -58,6 +71,7 @@ const GrocerySearchBox = () => {
                 height: "100%",
                 borderRadius: "0 300px 300px 0",
               }}
+              onClick={handleDocumentClick}
             >
               Search
             </Button>
@@ -67,22 +81,12 @@ const GrocerySearchBox = () => {
       />
 
       {resultList.length > 0 && (
-        <SearchResultCard elevation={2}>
-          {resultList.map((item) => (
-            <Link href={`/product/search/${item}`} key={item} passHref>
-              <MenuItem key={item}>{item}</MenuItem>
-            </Link>
-          ))}
-        </SearchResultCard>
+        <Link href={`/product/search/`} passHref>
+        </Link>
+
       )}
     </Box>
   );
 };
 
-const dummySearchResult = [
-  "Macbook Air 13",
-  "Asus K555LA",
-  "Acer Aspire X453",
-  "iPad Mini 3",
-];
 export default GrocerySearchBox;

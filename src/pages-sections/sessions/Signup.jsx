@@ -10,9 +10,11 @@ import BazaarTextField from "components/BazaarTextField";
 import { Wrapper } from "./Login";
 import SocialButtons from "./SocialButtons";
 import EyeToggleButton from "./EyeToggleButton";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 const Signup = () => {
+  const router = useRouter();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const togglePasswordVisibility = useCallback(() => {
     setPasswordVisibility((visible) => !visible);
@@ -20,28 +22,34 @@ const Signup = () => {
 
   const handleFormSubmit = async (values) => {
     console.log(values);
-    sendForm();
+    sendForm(values);
   };
 
-  const sendForm = async () => {
+  const sendForm = async (values) => {
     await axios
       .post(
         `https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/user/`,
         {
-          user_name: "test123",
-          user_id: "test123",
-          password: "test123",
-          nickname: "test123",
+          user_name: values.name,
+          user_id: values.email,
+          password: values.password,
+          nickname: values.name,
           gender: "F",
-          phone: "010-1234-5678",
-          email: "test123@aa.cc",
+          phone: values.phone,
+          email: values.email,
         }
       )
       .then((response) => {
-        console.log(response);
+        if (response.status === 200) {
+          router.push("/login");
+        }
+
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          alert('이미 가입되어 있는 이메일 주소입니다.')
+        }
       });
   };
 
@@ -70,12 +78,12 @@ const Signup = () => {
           fullWidth
           name="name"
           size="small"
-          label="Full Name"
+          label="이름"
           variant="outlined"
           onBlur={handleBlur}
           value={values.name}
           onChange={handleChange}
-          placeholder="Ralph Adwards"
+          placeholder="홍길동"
           error={!!touched.name && !!errors.name}
           helperText={touched.name && errors.name}
         />
@@ -90,7 +98,7 @@ const Signup = () => {
           onBlur={handleBlur}
           value={values.email}
           onChange={handleChange}
-          label="Email"
+          label="이메일"
           placeholder="exmple@mail.com"
           error={!!touched.email && !!errors.email}
           helperText={touched.email && errors.email}
@@ -99,9 +107,25 @@ const Signup = () => {
         <BazaarTextField
           mb={1.5}
           fullWidth
+          name="phone"
+          size="phone"
+          type="phone"
+          variant="outlined"
+          onBlur={handleBlur}
+          value={values.phone}
+          onChange={handleChange}
+          label="연락처"
+          placeholder="01012341234"
+          error={!!touched.phone && !!errors.phone}
+          helperText={touched.phone && errors.phone}
+        />
+
+        <BazaarTextField
+          mb={1.5}
+          fullWidth
           size="small"
           name="password"
-          label="Password"
+          label="비밀번호"
           variant="outlined"
           autoComplete="on"
           placeholder="*********"
@@ -127,7 +151,7 @@ const Signup = () => {
           autoComplete="on"
           name="re_password"
           variant="outlined"
-          label="Retype Password"
+          label="비밀번호 확인"
           placeholder="*********"
           onBlur={handleBlur}
           onChange={handleChange}
@@ -153,24 +177,19 @@ const Signup = () => {
             <Checkbox
               size="small"
               color="secondary"
-              checked={values.agreement || false}
+              checked={values.agreement}
             />
           }
           label={
-            <FlexBox
-              flexWrap="wrap"
-              alignItems="center"
-              justifyContent="flex-start"
-            >
-              By signing up, you agree to
-              <a href="/" target="_blank" rel="noreferrer noopener">
-                <H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-                  Terms & Condtion
-                </H6>
+            <div>
+              회원 가입을 위한 <a href="/" target="_blank" rel="noreferrer noopener" style={{ textDecoration: 'underline' }}>
+                약관 동의
               </a>
-            </FlexBox>
+              {errors.agreement && <p style={{ color: '#E94560', marginTop: '4px', fontSize: '0.75rem' }}>{errors.agreement}</p>}
+            </div>
           }
         />
+
 
         <Button
           fullWidth
@@ -187,41 +206,47 @@ const Signup = () => {
 
       {/* <SocialButtons /> */}
       <FlexRowCenter mt="1.25rem">
-        <Box>Already have an account?</Box>
+        <Box>이미 회원이신가요?</Box>
         <Link href="/login" passHref legacyBehavior>
           <a>
             <H6 ml={1} borderBottom="1px solid" borderColor="grey.900">
-              Login
+              로그인
             </H6>
           </a>
         </Link>
       </FlexRowCenter>
-    </Wrapper>
+    </Wrapper >
   );
 };
 
 const initialValues = {
   name: "",
   email: "",
+  phone: "",
   password: "",
   re_password: "",
   agreement: false,
 };
 const formSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  email: yup.string().email("invalid email").required("Email is required"),
-  password: yup.string().required("Password is required"),
+  name: yup.string().required("이름을 입력하세요."),
+  email: yup.string().email("이메일 형식이 맞지 않습니다.").required("이메일 주소를 입력하세요."),
+  phone: yup.string().required("연락처를 입력하세요."),
+  password: yup.string().required("비밀번호를 입력하세요."),
   re_password: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Please re-type password"),
+    .oneOf([yup.ref("password"), null], "비밀번호가 맞지 않습니다.")
+    .required("비밀번호를 입력하세요."),
+  // agreement: yup
+  //   .bool()
+  //   .test(
+  //     "agreement",
+  //     "You have to agree with our Terms and Conditions!",
+  //     (value) => value === true
+  //   )
+  //   .required("You have to agree with our Terms and Conditions!"),
   agreement: yup
     .bool()
-    .test(
-      "agreement",
-      "You have to agree with our Terms and Conditions!",
-      (value) => value === true
-    )
+    .oneOf([true], "회원 가입을 위해 약관 동의가 필요합니다.")
     .required("You have to agree with our Terms and Conditions!"),
 });
 export default Signup;
