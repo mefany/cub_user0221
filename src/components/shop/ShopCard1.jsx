@@ -26,7 +26,7 @@ const ContentWrapper = styled(Box)(({ theme, img }) => ({
 }));
 
 const ShopCard1 = (props) => {
-  const { name, rating, address, phone, coverPicture, profilePicture, slug } =
+  const { name, rating, address, phone, coverPicture, profilePicture, id } =
     props;
   return (
     <Card>
@@ -78,7 +78,7 @@ const ShopCard1 = (props) => {
             borderColor: "grey.100",
           }}
         />
-        <Link href={`/shops/${slug}`}>
+        <Link href={`/shops/${id}`} >
           <a>
             <IconButton
               sx={{

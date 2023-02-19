@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { Favorite, RemoveRedEye } from "@mui/icons-material";
+import { Favorite, RemoveRedEye, Place } from "@mui/icons-material";
 import { Box, Chip, IconButton, styled } from "@mui/material";
+
 import { useSnackbar } from "notistack";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import LazyImage from "components/LazyImage";
 import BazaarCard from "components/BazaarCard";
-import { H3, Span } from "components/Typography";
+import { H3, Span, Paragraph } from "components/Typography";
 import BazaarRating from "components/BazaarRating";
 import { useAppContext } from "contexts/AppContext";
 import BookViewDialog from "components/products/BookViewDialog";
@@ -118,14 +119,14 @@ const BookCard = ({
         </HoverIconWrapper>
 
         <Link href={`/book/${trade_uid}`}>
-          <a>            
+          <a>
             <LazyImage
               src={imgUrl}
               width={0}
               height={0}
               layout="responsive"
               alt={title}
-            />  
+            />
           </a>
         </Link>
       </ImageWrapper>
@@ -147,11 +148,9 @@ const BookCard = ({
       <ContentWrapper>
         <FlexBox>
           <Box flex="1 1 0" minWidth="0px" mr={1}>
-            {/* <Link href={`/product/${slug}`}> */}
-            <Link href={`/address/${slug}`}>
+            <Link href={`/book/${trade_uid}`}>
               <a>
                 <H3
-                  mb={1}
                   title={title}
                   fontSize="14px"
                   fontWeight="600"
@@ -160,6 +159,14 @@ const BookCard = ({
                 >
                   {title}
                 </H3>
+                <Paragraph py={1} color="grey.500" fontWeight={600} fontSize={13}>
+                  <Place
+                    fontSize="small"
+                    sx={{
+                      fontSize: 17,
+                    }}
+                  />{shop_name}
+                </Paragraph>
               </a>
             </Link>
 

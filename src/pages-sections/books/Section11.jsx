@@ -3,14 +3,14 @@ import BookCard from "components/product-cards/BookCard";
 import CategorySectionHeader from "components/CategorySectionHeader";
 
 // ====================================================
-const Section11 = ({ moreItems }) => {
+const Section11 = ({ moreItems, title }) => {
   return (
     <Container
       sx={{
         mb: "70px",
       }}
     >
-      <CategorySectionHeader title="신규도서" />
+      <CategorySectionHeader title={title || "신규도서"} />
 
       <Grid container spacing={3}>
         {moreItems.map((item) => (

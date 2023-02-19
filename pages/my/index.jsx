@@ -10,7 +10,7 @@ import SellBookRow from "pages-sections/orders/SellBookRow";
 import UserDashboardHeader from "components/header/UserDashboardHeader";
 import CustomerDashboardLayout from "components/layouts/customer-dashboard";
 import CustomerDashboardNavigation from "components/layouts/customer-dashboard/Navigations";
-
+import { withAuth } from "../../hocs/withAuth ";
 // ====================================================
 const Orders = () => {
   let linkArr;
@@ -124,4 +124,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default withAuth(Orders);

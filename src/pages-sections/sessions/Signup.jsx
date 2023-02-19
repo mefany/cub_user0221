@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Button, Checkbox, Box, FormControlLabel } from "@mui/material";
+import { Button, Checkbox, Box, FormControlLabel, MenuItem, TextField } from "@mui/material";
 import Link from "next/link";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ import axios from "axios";
 
 const Signup = () => {
   const router = useRouter();
+  const [region, setRegion] = useState(sortOptions[0].value)
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const togglePasswordVisibility = useCallback(() => {
     setPasswordVisibility((visible) => !visible);
@@ -24,6 +25,11 @@ const Signup = () => {
     console.log(values);
     sendForm(values);
   };
+
+  const handleOnChange = (e) => {
+    console.log(e.target.value)
+    setRegion(e.target.value)
+  }
 
   const sendForm = async (values) => {
     await axios
@@ -37,6 +43,7 @@ const Signup = () => {
           gender: "F",
           phone: values.phone,
           email: values.email,
+          favorite_gu_1: region
         }
       )
       .then((response) => {
@@ -107,22 +114,6 @@ const Signup = () => {
         <BazaarTextField
           mb={1.5}
           fullWidth
-          name="phone"
-          size="phone"
-          type="phone"
-          variant="outlined"
-          onBlur={handleBlur}
-          value={values.phone}
-          onChange={handleChange}
-          label="연락처"
-          placeholder="01012341234"
-          error={!!touched.phone && !!errors.phone}
-          helperText={touched.phone && errors.phone}
-        />
-
-        <BazaarTextField
-          mb={1.5}
-          fullWidth
           size="small"
           name="password"
           label="비밀번호"
@@ -148,6 +139,7 @@ const Signup = () => {
         <BazaarTextField
           fullWidth
           size="small"
+          mb={1.5}
           autoComplete="on"
           name="re_password"
           variant="outlined"
@@ -168,6 +160,40 @@ const Signup = () => {
             ),
           }}
         />
+
+        <BazaarTextField
+          mb={1.5}
+          fullWidth
+          name="phone"
+          size="phone"
+          type="phone"
+          variant="outlined"
+          onBlur={handleBlur}
+          value={values.phone}
+          onChange={handleChange}
+          label="연락처"
+          placeholder="01012341234"
+          error={!!touched.phone && !!errors.phone}
+          helperText={touched.phone && errors.phone}
+        />
+
+        <BazaarTextField
+          select
+          fullWidth
+          size="small"
+          label="주거래지역"
+          variant="outlined"
+          placeholder="Short by"
+          defaultValue={sortOptions[0].value}
+          onChange={handleOnChange}
+
+        >
+          {sortOptions.map((item) => (
+            <MenuItem value={item.value} key={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </BazaarTextField>
 
         <FormControlLabel
           name="agreement"
@@ -249,4 +275,40 @@ const formSchema = yup.object().shape({
     .oneOf([true], "회원 가입을 위해 약관 동의가 필요합니다.")
     .required("You have to agree with our Terms and Conditions!"),
 });
+
+const sortOptions = [
+  {
+    label: "서초구, 강남구",
+    value: "서초구, 강남구",
+  },
+  {
+    label: "송파구, 강동구",
+    value: "송파구, 강동구",
+  },
+  {
+    label: "동대문구, 중랑구, 성동구, 광진구",
+    value: "동대문구, 중랑구, 성동구, 광진구",
+  },
+  {
+    label: "도봉구, 강북구, 성북구, 노원구",
+    value: "도봉구, 강북구, 성북구, 노원구",
+  },
+  {
+    label: "종로구, 중구, 용산구",
+    value: "종로구, 중구, 용산구",
+  },
+  {
+    label: "은평구, 마포구, 서대문구",
+    value: "은평구, 마포구, 서대문구",
+  },
+  {
+    label: "강서구, 양천구, 영등포구, 구로구",
+    value: "강서구, 양천구, 영등포구, 구로구",
+  },
+  {
+    label: "동작구, 관악구, 금천구",
+    value: "동작구, 관악구, 금천구",
+  },
+];
+
 export default Signup;

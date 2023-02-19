@@ -9,6 +9,8 @@ import {
   IconButton,
   styled,
 } from "@mui/material";
+import { Place } from "@mui/icons-material";
+
 import { FlexBox } from "components/flex-box";
 import BazaarImage from "components/BazaarImage";
 import BazaarRating from "components/BazaarRating";
@@ -111,7 +113,13 @@ const BookViewDialog = (props) => {
             <Grid item md={6} xs={12} alignSelf="center">
               <H2>{product.title}</H2>
               <Paragraph py={1} color="grey.500" fontWeight={600} fontSize={13}>
-                판매 매장:{product.shop_name}
+                <Place
+                  fontSize="small"
+                  sx={{
+                    fontSize: 17,
+                    mt: "3px",
+                  }}
+                />{product.shop_name}
               </Paragraph>
               <H1 color="primary.main">
                 {parseInt(product.sell_price).toLocaleString("ko-KR")}원

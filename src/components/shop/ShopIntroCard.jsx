@@ -58,7 +58,7 @@ const ShopIntroCard = (props) => {
               </H3>
             </Box>
 
-            <FlexBox my={1} gap={1.5}>
+            {/* <FlexBox my={1} gap={1.5}>
               {socialLinks.map((item, ind) => (
                 <a
                   href={item.url}
@@ -73,7 +73,7 @@ const ShopIntroCard = (props) => {
                   />
                 </a>
               ))}
-            </FlexBox>
+            </FlexBox> */}
           </FlexBetween>
 
           <FlexBetween flexWrap="wrap">
@@ -116,7 +116,7 @@ const ShopIntroCard = (props) => {
                   my: 1.5,
                 }}
               >
-                Contact Vendor
+                지도 보기
               </Button>
             </a>
           </FlexBetween>

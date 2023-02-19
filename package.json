@@ -38,6 +38,7 @@
     "currency.js": "^2.0.4",
     "date-fns": "^2.28.0",
     "formik": "^2.2.9",
+    "js-cookie": "^3.0.1",
     "merge": "^2.1.1",
     "next": "12.2.2",
     "notistack": "^2.0.8",

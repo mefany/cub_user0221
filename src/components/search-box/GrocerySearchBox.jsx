@@ -48,7 +48,7 @@ const GrocerySearchBox = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="도서를 검색해보세요"
+        placeholder={router.pathname.includes('/shops/') ? "매장내 도서를 검색해보세요" : "도서를 검색해보세요."}
         onChange={handleSearch}
         InputProps={{
           sx: {

@@ -34,27 +34,27 @@ const Section13 = ({ shops }) => {
       <Box my="-0.25rem">
         <Carousel totalSlides={shops.length} visibleSlides={visibleSlides}>
           {shops.map(
-            ({ shop_uid, name, shop_photo, price, discount, slug }) => (
+            ({ shop_uid, shop_name, shop_photo, address_full }) => (
               <Box py={0.5} key={shop_uid}>
                 <BazaarCard
                   sx={{
                     p: "1rem",
                   }}
                 >
-                  <Link href={`/product/${slug}`} passHref>
+                  <Link href={`/shops/${shop_uid}`} passHref>
                     <a>
                       <HoverBox borderRadius="8px" mb={1}>
                         <LazyImage
                           width={100}
                           height={100}
-                          alt={name}
+                          alt={shop_name}
                           src={shop_photo}
                           layout="responsive"
                         />
                       </HoverBox>
 
                       <H4 fontWeight="600" fontSize="14px" mb={0.5}>
-                        {name}
+                        {shop_name}
                       </H4>
 
                       <FlexBox gap={1}>
@@ -75,7 +75,7 @@ const Section13 = ({ shops }) => {
                           mb={0.5}
                           color="grey.600"
                         >
-                          강동구 방이동
+                          {address_full}
                         </H4>
                         <H4
                           fontWeight="600"

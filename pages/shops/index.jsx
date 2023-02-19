@@ -6,9 +6,17 @@ import { FlexBetween } from "components/flex-box";
 import ShopLayout1 from "components/layouts/ShopLayout1";
 import api from "utils/__api__/shop";
 import axios from "axios";
+import Link from "next/link";
 
 // =============================================
 const ShopList = ({ shops }) => {
+  fetch(
+    `https://i9nwbiqoc6.execute-api.ap-northeast-2.amazonaws.com/test/shop`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    })
 
   const handleOnChange = (e) => {
     if (e.target.value !== 'latest') {
@@ -42,7 +50,7 @@ const ShopList = ({ shops }) => {
             },
           }}
         >
-          <H2>전체 매장</H2>
+          <H2>매장 리스트</H2>
 
           <FlexBox
             alignItems="center"
@@ -65,7 +73,7 @@ const ShopList = ({ shops }) => {
                 onChange={handleOnChange}
                 sx={{
                   flex: "1 1 0",
-                  minWidth: "150px",
+                  minWidth: "250px",
                 }}
               >
                 {sortOptions.map((item) => (
@@ -83,10 +91,10 @@ const ShopList = ({ shops }) => {
           {shops.map((item) => (
             <Grid item lg={4} sm={6} xs={12} key={item.shop_uid}>
               <ShopCard1
-                name={item.name}
-                // slug={item.slug}
-                phone={'010-1111-1111'}
-                address={'강동구 방이동'}
+                name={item.shop_name}
+                id={item.shop_uid}
+                phone={item.phone1}
+                address={item.address_full}
                 // rating={item.rating || 5}
                 coverPicture={item.shop_photo}
                 profilePicture={item.shop_photo}
@@ -124,24 +132,36 @@ export const getStaticProps = async () => {
 
 const sortOptions = [
   {
-    label: "전체",
-    value: "asc",
+    label: "서초구, 강남구",
+    value: "서초구, 강남구",
   },
   {
-    label: "서울시",
-    value: "asc2",
+    label: "송파구, 강동구",
+    value: "송파구, 강동구",
   },
   {
-    label: "경기도",
-    value: "desc",
+    label: "동대문구, 중랑구, 성동구, 광진구",
+    value: "동대문구, 중랑구, 성동구, 광진구",
   },
   {
-    label: "강원도",
-    value: "latest",
+    label: "도봉구, 강북구, 성북구, 노원구",
+    value: "도봉구, 강북구, 성북구, 노원구",
   },
   {
-    label: "충청도",
-    value: "latest",
+    label: "종로구, 중구, 용산구",
+    value: "종로구, 중구, 용산구",
+  },
+  {
+    label: "은평구, 마포구, 서대문구",
+    value: "은평구, 마포구, 서대문구",
+  },
+  {
+    label: "강서구, 양천구, 영등포구, 구로구",
+    value: "강서구, 양천구, 영등포구, 구로구",
+  },
+  {
+    label: "동작구, 관악구, 금천구",
+    value: "동작구, 관악구, 금천구",
   },
 ];
 export default ShopList;
